@@ -1,0 +1,37 @@
+terraform.tfvars
+checklist
+application.yaml
+
+# Python-related
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+.venv/
+*.idea
+*.DS_STORE
+
+# Docker
+*.log
+*.pid
+*.seed
+*.pid.lock
+*.swp
+.env
+account_id
+
+script.sh
+
+# SQLite database
+*.sqlite3
+
+# DB
+instance/
+
+
+.terraform/
+terraform
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
