@@ -1,0 +1,52 @@
+app:
+  name: flask-app
+  namespace: default
+  serviceAccount: flask-app-sa
+
+replicaCount: 1
+
+image:
+  repository: rebachi/aws-lab
+  tag: "8"
+  pullPolicy: Always
+
+service:
+  name: flask-app
+  port: 80
+  targetPort: 5000
+
+env:
+  S3_BUCKET: stockpnl-data
+  AWS_REGION: eu-north-1
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "250m"
+    memory: "256Mi"
+
+readinessProbe:
+  path: /health
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+livenessProbe:
+  path: /health
+  initialDelaySeconds: 10
+  periodSeconds: 20
+
+topologySpread:
+  maxSkew: 1
+  topologyKey: topology.kubernetes.io/zone
+  whenUnsatisfiable: DoNotSchedule
+
+ingress:
+  enabled: true
+  name: flask-route
+  host: stockpnl.com
+  path: /
+  pathType: Prefix
+  className: nginx
+  rewriteTarget: /
