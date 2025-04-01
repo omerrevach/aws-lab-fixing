@@ -1,0 +1,16 @@
+* Go over the pipeline github actions add comments
+
+* in k8s add:
+    * maxsqew
+    * readiness and liveness probe
+    * cpu and memory limiter with hpa
+
+* check to add vpc gateway endpoint for the app to s3 bucket
+
+
+* made so i can only access cluster from local pc fix later.
+* add tls for alb
+* secrets manager external secrets for credentials
+* terraform import kubernetes_config_map.aws_auth kube-system/aws-auth
+
+* use argocd if i have time
