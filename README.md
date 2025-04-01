@@ -290,4 +290,6 @@ pipeline_artifact_bucket = "commit-pipeline-artifact-bucket-omeriko"
             * Username: Administrator
             * Password: MySecurePass123!
             * Then click Connect
+    - Go to broswer and type the domain name
+    
 ![WebAppPic](web_app.png)
