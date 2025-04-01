@@ -1,5 +1,0 @@
-apiVersion: v2
-name: flask-app
-description: Flask App with S3 + External Secrets + Ingress
-version: 0.1.0
-appVersion: "1.0"

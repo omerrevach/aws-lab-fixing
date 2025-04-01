@@ -1,0 +1,31 @@
+terraform.tfvars
+idea
+secretsmanager.txt
+foler_structure.txt
+checklist
+secrets_setup.txt
+.terraform/
+terraform
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+
+# Python-related
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+.venv/
+*.idea
+*.DS_STORE
+
+# Docker
+*.log
+*.pid
+*.seed
+*.pid.lock
+*.swp
+.env
+
+instructions.txt
