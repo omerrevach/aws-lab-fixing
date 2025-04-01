@@ -1,0 +1,44 @@
+version: 0.2
+env:
+  variables:
+    IMAGE_NAME: rebachi/aws-lab
+    HELM_DIR: helm
+    BRANCH_NAME: manifests
+    COMMIT_MSG: "CI: Update image tag through CodePipeline"
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo installing tools
+      - yum update -y && yum install -y git wget
+      - docker --version
+      - wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+      - chmod +x /usr/local/bin/yq
+      - yq --version
+  pre_build:
+    commands:
+      - echo logging to dockerhub
+      - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - export IMAGE_TAG=$CODEBUILD_BUILD_NUMBER
+      - echo Image tag is $IMAGE_TAG
+  build:
+    commands:
+      - echo building image
+      - docker build -t $IMAGE_NAME:$IMAGE_TAG ./app
+      - docker push $IMAGE_NAME:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo CD executing
+      - git config --global user.name "CI Bot"
+      - git config --global user.email "ci@lab.com"
+      - git clone https://${GITHUB_TOKEN}@github.com/omerrevach/aws-lab.git output
+      - cd output
+      - git checkout $BRANCH_NAME
+      - echo "Updating values.yaml with new image tag"
+      - yq -i '.image.tag = "'$IMAGE_TAG'"' helm/values.yaml
+      - git add helm/values.yaml
+      - git commit -m "$COMMIT_MSG"
+      - git push origin $BRANCH_NAME
+artifacts:
+  files: []
